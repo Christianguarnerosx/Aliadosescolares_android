@@ -8,20 +8,33 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var visor: WebView // Declaración del WebView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val visor = findViewById<WebView>(R.id.web)
+        // Obtener el color de la paleta de colores
+        val colorPrimaryDark = ContextCompat.getColor(this, R.color.barra)
 
+        // Aplicar el color a la barra de notificaciones
+        window.statusBarColor = colorPrimaryDark
+
+        // se crea la variable del webview llamado visor puesto en la interfaz (componente/web)
+        visor = findViewById<WebView>(R.id.web)
+
+        // se crea el objeto tipo webchromeclient con el que haremos config del webview llamado visor
         visor.webChromeClient = object : WebChromeClient(){
 
         }
 
+        // Variable para asignar configuraciones de la interfaz
         val setting:WebSettings = visor.settings
-        setting.javaScriptEnabled = true
+        setting.javaScriptEnabled = true // Activar el js del navegador como en paginas web
+        setting.mediaPlaybackRequiresUserGesture = false //Activas sonido para que salga el del js
+
 
         // Configura un WebViewClient personalizado
         visor.webViewClient = object : WebViewClient() {
@@ -38,6 +51,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        visor.loadUrl("http://192.168.1.76/Cliente/p_alumnos/Principalalm.php")
+        visor.loadUrl("http://192.168.1.68/")
+    }
+
+    //Configurar que al presionar atras no salga de la app y mejor vaya retrocediendo las url del webview
+    override fun onBackPressed() {
+        if (visor.canGoBack()) {
+            visor.goBack()
+        } else {
+            super.onBackPressed()
+        }
     }
 }
