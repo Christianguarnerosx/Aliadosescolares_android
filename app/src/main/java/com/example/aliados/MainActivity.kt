@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        visor.loadUrl("http://192.168.1.68/")
+        visor.loadUrl("aliadosescolares.infinityfreeapp.com/Aliadosescolares/Index.php")
     }
 
     //Configurar que al presionar atras no salga de la app y mejor vaya retrocediendo las url del webview
