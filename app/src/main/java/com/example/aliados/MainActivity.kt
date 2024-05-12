@@ -3,7 +3,6 @@ package com.example.aliados
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -12,6 +11,7 @@ import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
     private lateinit var visor: WebView // Declaración del WebView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -22,18 +22,15 @@ class MainActivity : AppCompatActivity() {
         // Aplicar el color a la barra de notificaciones
         window.statusBarColor = colorPrimaryDark
 
-        // se crea la variable del webview llamado visor puesto en la interfaz (componente/web)
+        // Se crea la variable del webview llamado visor puesto en la interfaz (componente/web)
         visor = findViewById<WebView>(R.id.web)
 
-        // se crea el objeto tipo webchromeclient con el que haremos config del webview llamado visor
-        visor.webChromeClient = object : WebChromeClient(){
-
-        }
-
         // Variable para asignar configuraciones de la interfaz
-        val setting:WebSettings = visor.settings
-        setting.javaScriptEnabled = true // Activar el js del navegador como en paginas web
-        setting.mediaPlaybackRequiresUserGesture = false //Activas sonido para que salga el del js
+        val settings: WebSettings = visor.settings
+        settings.javaScriptEnabled = true // Activar el js del navegador como en paginas web
+        settings.mediaPlaybackRequiresUserGesture = false //Activas sonido para que salga el del js
+        // Habilitar el acceso a contenido
+        settings.allowContentAccess = true
 
 
         // Configura un WebViewClient personalizado
@@ -51,10 +48,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        visor.loadUrl("aliadosescolares.infinityfreeapp.com/Aliadosescolares/Index.php")
+        visor.loadUrl("https://aliadosescolares.infinityfreeapp.com/Aliadosescolares/Index.php")
     }
 
-    //Configurar que al presionar atras no salga de la app y mejor vaya retrocediendo las url del webview
+    // Configurar que al presionar atras no salga de la app y mejor vaya retrocediendo las url del webview
     override fun onBackPressed() {
         if (visor.canGoBack()) {
             visor.goBack()
